@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  {{!-- <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/registration_numbers.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+  <script src="regtemplate_numbers.js" charset="utf-8"></script>
+  <script src="template_dom.js" charset="utf-8"></script> --}}
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  {{!-- <script type="text/x-template" class="totalTemplate">
+    <ul>
+{{! each helps with looping key values of the map}}
+         {{#each addReg}}
+
+        <li>{{this}}</li>
+
+
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+        {{/each}}
+
+
+    </ul>
+
+      </script> --}}
+
+
+</head>
+
+<body>
+  <div class="container">
+    <!-- header section
+  _____________________________________________________-->
+    <div class="row">
+      <div style="text-align: center" class="twelve columns">
+      <img src="car.png" alt="">
+        <h1>Registration Numbers</h1>
+
+      </div>
+    </div>
+    <br>
+
+
+    <!-- filter
+___________________________________________________________-->
+<div class="row">
+  <div class="twelve columns">
+      <div class="three columns">
+          <form  class="dropdown-menu" >
+          Select town :
+          <select class="town ">
+            <option class="town" value="All">All</option>
+            <option class="town"  value="CA " >Cape Town</option>
+            <option  class="town" value="CAW ">George</option>
+            <option class="town"   value="CJ ">Paarl</option>
+            <option  class="town" value="CL ">Stellenbosch</option>
+          </select>
+          </form>
+      </div>
+        <div class="six columns">
+
+          <label for=""> Enter Registration Number</label>
+          <form action="/reg_numbers" method="post">
+           <input type="text" name="regNum" class="regInput"   placeholder="eg: CA 123 456" title=""  >
+          <button type="submit" name="button" class="btnAdd">ADD</button>
+          
+          </form>
+ 
+  <div class="alert"></div>
+
+        </div>
+
+  </div>
+</div>
+
+    <br>
+  
+  
+
+      
+      <button type="button" name="button" class="btnReset">Reset</button>
+
+
+    <!--______________________________________________________-->
+
+
+    <!--add new created element
+ ____________________________________________________-->
+    <div class="row">
+      <label for="">Registration Numbers</label>
+        <div class="templateContent">
+      {{#each displayRegNum}}
+      <ul>
+        <li> {{regnumber}}</li>
+      </ul>
+      {{/each}}
+    </div>
+    <!--_______________________________________________-->
+  </div>
+
+
+</body>
+
+</html>
