@@ -29,6 +29,14 @@ const RegNumbers = RegnumbersFactory(pool);
 
 let app = express();
 
+app.use(session({
+    secret: 'Not in database',
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use(flash());
+
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
 }));
@@ -48,18 +56,47 @@ app.use(bodyParser.json());
 
 app.post('/reg_numbers', async function (req, res, next) {
     try {
+        let regID = await RegNumbers.getTownCode();
+        let displayRegNum = await RegNumbers.returnAllReg();
         let regNumber = req.body.regNum;
         let regex = /^[a-zA-Z]{2,3}(\s)[0-9]{3}(\s)[0-9]{3}$/;
         if (regNumber.match(regex)) {
             let storeRegNum = await RegNumbers.storeRegNum(regNumber);
-            let displayRegNum = await RegNumbers.returnAllReg();
             if (storeRegNum === 'matched') {
-                console.log('Registration already exits');
+                req.flash('error', 'Registration already exits');
             }
-            res.render('home', { displayRegNum });
+            res.render('home', { displayRegNum, regID });
         } else {
-            console.log('please enter correct format');
+            req.flash('error', 'Entered Registatration Has Invalid Pattern!!');
+            res.render('home', { displayRegNum, regID });
         }
+    } catch (err) {
+        next(err.stack);
+    }
+});
+
+app.post('/reg_numbers/town', async function (req, res, next) {
+    try {
+        let townReg = req.body.town;
+        let regID = await RegNumbers.getTownCode();
+        let displayRegNum = await RegNumbers.filterReg(townReg);
+        console.log(displayRegNum.length);
+
+        // loop through the regID list
+        // check if the current entry match townReg
+        // if it does add a selected property selected = 'selected'
+        for (let index = 0; index < regID.length; index++) {
+            const currentTown = regID[index];
+            if (currentTown.towncode === townReg) {
+                currentTown.selected = 'selected';
+                break;
+            }
+        }
+        if (displayRegNum.length === 0) {
+            console.log('No resgistrations where entred');
+        }
+
+        res.render('home', { displayRegNum, regID });
     } catch (err) {
         next(err.stack);
     }
@@ -67,8 +104,9 @@ app.post('/reg_numbers', async function (req, res, next) {
 
 app.get('/', async function (req, res, next) {
     try {
+        let regID = await RegNumbers.getTownCode();
         let displayRegNum = await RegNumbers.returnAllReg();
-        res.render('home', { displayRegNum });
+        res.render('home', { displayRegNum, regID });
     } catch (err) {
         next(err.stack);
     }

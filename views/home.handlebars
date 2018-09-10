@@ -8,37 +8,6 @@
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
-  <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  {{!-- <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/registration_numbers.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-  <script src="regtemplate_numbers.js" charset="utf-8"></script>
-  <script src="template_dom.js" charset="utf-8"></script> --}}
-  <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  {{!-- <script type="text/x-template" class="totalTemplate">
-    <ul>
-{{! each helps with looping key values of the map}}
-         {{#each addReg}}
-
-        <li>{{this}}</li>
-
-
-  <!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-        {{/each}}
-
-
-    </ul>
-
-      </script> --}}
-
 
 </head>
 
@@ -48,27 +17,29 @@
   _____________________________________________________-->
     <div class="row">
       <div style="text-align: center" class="twelve columns">
-      <img src="car.png" alt="">
+      <img src="/car.png" alt="">
         <h1>Registration Numbers</h1>
-
       </div>
+      
     </div>
     <br>
-
+    
+<div class="error">
+          {{messages.error}}  
+        </div>
 
     <!-- filter
 ___________________________________________________________-->
 <div class="row">
   <div class="twelve columns">
       <div class="three columns">
-          <form  class="dropdown-menu" >
+          <form  method="post" action="/reg_numbers/town"  class="dropdown-menu" >
           Select town :
-          <select class="town ">
-            <option class="town" value="All">All</option>
-            <option class="town"  value="CA " >Cape Town</option>
-            <option  class="town" value="CAW ">George</option>
-            <option class="town"   value="CJ ">Paarl</option>
-            <option  class="town" value="CL ">Stellenbosch</option>
+          <select name="town" onchange="this.form.submit()" >
+             <option  name="town" value='All'>All</option>
+            {{#each regID}}
+            <option value="{{towncode}}" {{selected}}>{{townname}}</option>
+            {{/each}}
           </select>
           </form>
       </div>
@@ -94,10 +65,6 @@ ___________________________________________________________-->
 
       
       <button type="button" name="button" class="btnReset">Reset</button>
-
-
-    <!--______________________________________________________-->
-
 
     <!--add new created element
  ____________________________________________________-->

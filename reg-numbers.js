@@ -18,39 +18,29 @@ module.exports = function (pool) {
         }
     }
 
+    async function getTownCode () {
+        let townTags = await pool.query('SELECT towncode,townName FROM towns');
+        return townTags.rows;
+    }
+
     async function returnAllReg () {
         let disaplyReg = await pool.query('select regNumber from reg_data');
-        // console.log(disaplyReg.rows);
         return disaplyReg.rows;
     }
 
-    async function filterReg (value) {
-        let filterd = await pool.query('SELECT * FROM reg_data WHERE regnumber LIKE $1% ', [value]);
-        return filterd;
+    async function filterReg (townSelected) {
+        if (townSelected === 'All') {
+            return returnAllReg();
+        } else if (townSelected !== 'All') {
+            let filterd = await pool.query('SELECT towns.towncode, reg_data.regnumber FROM reg_data INNER JOIN towns on reg_data.town_id = towns.id WHERE towncode = $1', [townSelected]);
+            return filterd.rows;
+        }
     }
-
-    //   var filteredList = reg.filter(function("regMap"){
-    //       return regMap.startsWith(town);
-    //   });
-    //
-    //   return filteredList;
-    //
-    // }
-
-    // function regArray () {
-    //     return Object.keys(regMap);
-    // }
-
-    // function resetStorage () {
-    //     return regMap = {};
-    // }
 
     return {
         storeRegNum: storeRegNum,
         filterReg: filterReg,
-        returnAllReg: returnAllReg
-
-        // resetStorage: resetStorage,
-        // regArray: regArray
+        returnAllReg: returnAllReg,
+        getTownCode: getTownCode
     };
 };
