@@ -6,6 +6,9 @@ module.exports = function (pool) {
         if (numbersReg !== '') {
             let townCode = numbersReg.substring(0, 3).trim();
             let matchedTown = await pool.query('SELECT * FROM towns WHERE  townCode = $1', [townCode]);
+            if (matchedTown.rows.length === 0) {
+                return 'not valid';
+            }
             let foundTag = matchedTown.rows[0].id;
             if (matchedTown.rows.length === 1) {
                 let checkReg = await pool.query('SELECT 1 FROM reg_data WHERE regnumber =$1', [numbersReg]);
@@ -37,10 +40,16 @@ module.exports = function (pool) {
         }
     }
 
+    async function clearRegNUmbers () {
+        let clear = await pool.query('DELETE FROM reg_data');
+        return clear.rows;
+    }
+
     return {
         storeRegNum: storeRegNum,
         filterReg: filterReg,
         returnAllReg: returnAllReg,
-        getTownCode: getTownCode
+        getTownCode: getTownCode,
+        clearRegNUmbers: clearRegNUmbers
     };
 };
