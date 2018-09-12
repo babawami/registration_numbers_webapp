@@ -3,6 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (clearMessage.innerHTML !== '') {
         setTimeout(function () {
             clearMessage.innerHTML = '';
-        }, 3000);
+        }, 1000);
     }
 });

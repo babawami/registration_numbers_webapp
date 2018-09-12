@@ -37,7 +37,7 @@ ___________________________________________________________-->
   <div class="twelve columns ">
       <div class="three columns">
           <form  method="post" action="/reg_numbers/town"  class="dropdown-menu" >
-          Select town :
+          <label for="">Select town : </label>
           <select name="town" onchange="this.form.submit()" >
              <option  name="town" value='All'>All</option>
             {{#each regID}}
@@ -46,13 +46,13 @@ ___________________________________________________________-->
           </select>
           </form>
       </div>
-        <div class="six columns">
+        <div class="nine columns">
 
           <label for=""> Enter Registration Number</label>
           <form action="/reg_numbers" method="post">
-           <input type="text" name="regNum" class="regInput"   placeholder="eg: CA 123 456" title=""  >
+           <input type="text" name="regNum" class="regInput"   placeholder="eg: CA 123-456" title=""  >
           <button type="submit" name="button" class="btnAdd">ADD</button>
-          
+          <a href="/clear"><button type="button" name="button" class="btnReset">Reset</button></a>
           </form>
  
         </div>
@@ -65,13 +65,13 @@ ___________________________________________________________-->
   
 
       
-      <button type="button" name="button" class="btnReset"><a href="/clear">Reset</a></button>
+       
 
     <!--add new created element
  ____________________________________________________-->
     <div class="row">
       <div class="twelve columns">
-                <label for="">Registration Numbers</label>
+               <H4>Registration Numbers</H4> 
         <div class="templateContent">
       {{#each displayRegNum}}
       <ul>

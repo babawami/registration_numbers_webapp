@@ -17,7 +17,7 @@ CREATE TABLE reg_data
     FOREIGN KEY (town_id) REFERENCES towns(id) ON DELETE CASCADE
 );
 
-
+INSERT INTO towns(townName,townCode) VALUES ('Bellville', 'CY');
 INSERT INTO towns(townName,townCode) VALUES ('Cape Town', 'CA');
 INSERT INTO towns(townName,townCode) VALUES ('George', 'CAW');
 INSERT INTO towns(townName,townCode) VALUES ('Stellenbosch', 'CL');

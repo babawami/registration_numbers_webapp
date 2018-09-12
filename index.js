@@ -26,8 +26,8 @@ const pool = new Pool({
 });
 
 // connect database to the factory function
-const RegNumbers = RegnumbersFactory(pool);
-const RegRoutes = RegistrationRoutes(RegNumbers);
+const regnumbers = RegnumbersFactory(pool);
+const regroutes = RegistrationRoutes(regnumbers);
 
 let app = express();
 
@@ -56,13 +56,13 @@ app.use(bodyParser.json());
 
 // route
 
-app.post('/reg_numbers', RegRoutes.regNumbersStored);
+app.post('/reg_numbers', regroutes.regNumbersStored);
 
-app.post('/reg_numbers/town', RegRoutes.filterRegNumbers);
+app.post('/reg_numbers/town', regroutes.filterRegNumbers);
 
-app.get('/', RegRoutes.showRegNumbers);
+app.get('/', regroutes.showRegNumbers);
 
-app.get('/clear', RegRoutes.clearAll);
+app.get('/clear', regroutes.clearAll);
 
 // port set-up
 let PORT = process.env.PORT || 3001;

@@ -10,11 +10,9 @@ body{
   
   
   .dropdown-menu{
-    background-color: #fff;
-    box-shadow:  1px 2px 3px rgba(0,0,0,0.2);
-    border-bottom: 2px solid #603d7b;
     padding-top: 5px;
     padding-left: 5px;
+    padding-right: 5px;
   }
   
   .dropdown-menu {
@@ -64,7 +62,10 @@ body{
 
   a{
     text-decoration: none;
-    color: whitesmoke;
+    display: inline;
+    /* color: rgb(39, 12, 12);
+    border: #1a2915 solid;
+    padding: 10px */
   }
 
   .firstSection{
@@ -76,4 +77,10 @@ body{
     text-align: center;
     color: #f20202;
     font-size: 1.2em;
+  }
+  h4{
+    text-align: center;
+    text-decoration: underline;
+    font-family: "Asset";
+  
   }

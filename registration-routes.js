@@ -1,13 +1,13 @@
 'use strict';
-module.exports = function RegistrationRoutes (RegNumbers) {
+module.exports = function RegistrationRoutes (regnumbers) {
     async function regNumbersStored (req, res, next) {
         try {
-            let regID = await RegNumbers.getTownCode();
+            let regID = await regnumbers.getTownCode();
             let regNumber = req.body.regNum;
-            let regex = /^[a-zA-Z]{2,3}(\s)[0-9]{3}(\s)[0-9]{3}$/;
+            let regex = /^[a-zA-Z]{2,3}(\s)(?:([0-9]{3}[-][0-9]{2,3})|([0-9]{3,5}))$/;
             if (regNumber.match(regex)) {
-                let storeRegNum = await RegNumbers.storeRegNum(regNumber);
-                let displayRegNum = await RegNumbers.returnAllReg();
+                let storeRegNum = await regnumbers.storeRegNum(regNumber);
+                let displayRegNum = await regnumbers.returnAllReg();
                 if (storeRegNum === 'matched') {
                     req.flash('error', 'Registration already exits');
                 } else if (storeRegNum === 'not valid') {
@@ -15,8 +15,8 @@ module.exports = function RegistrationRoutes (RegNumbers) {
                 }
                 res.render('home', { displayRegNum, regID });
             } else {
-                let displayRegNum = await RegNumbers.returnAllReg();
-                req.flash('error', 'Entered Registatration Has Invalid Pattern!!');
+                let displayRegNum = await regnumbers.returnAllReg();
+                req.flash('error', 'Entered Registatration Has Invalid Pattern !!');
                 res.render('home', { displayRegNum, regID });
             }
         } catch (err) {
@@ -27,8 +27,8 @@ module.exports = function RegistrationRoutes (RegNumbers) {
     async function filterRegNumbers (req, res, next) {
         try {
             let townReg = req.body.town;
-            let regID = await RegNumbers.getTownCode();
-            let displayRegNum = await RegNumbers.filterReg(townReg);
+            let regID = await regnumbers.getTownCode();
+            let displayRegNum = await regnumbers.filterReg(townReg);
             // loop through the regID list
             // check if the current entry match townReg
             // if it does add a selected property selected = 'selected'
@@ -40,7 +40,7 @@ module.exports = function RegistrationRoutes (RegNumbers) {
                 }
             }
             if (displayRegNum.length === 0) {
-                req.flash('error', 'No resgistrations Entered for Town Selected');
+                req.flash('error', 'No Resgistrations Entered For Town Selected');
             }
     
             res.render('home', { displayRegNum, regID });
@@ -51,8 +51,8 @@ module.exports = function RegistrationRoutes (RegNumbers) {
 
     async function showRegNumbers (req, res, next) {
         try {
-            let regID = await RegNumbers.getTownCode();
-            let displayRegNum = await RegNumbers.returnAllReg();
+            let regID = await regnumbers.getTownCode();
+            let displayRegNum = await regnumbers.returnAllReg();
             res.render('home', { displayRegNum, regID });
         } catch (err) {
             next(err.stack);
@@ -61,7 +61,7 @@ module.exports = function RegistrationRoutes (RegNumbers) {
 
     async function clearAll (req, res, next) {
         try {
-            let allDeleted = await RegNumbers.clearRegNUmbers();
+            let allDeleted = await regnumbers.clearRegNUmbers();
             if (allDeleted.length === 0) {
                 req.flash('clear', 'All Registrations Deleted');
             }
