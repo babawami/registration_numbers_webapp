@@ -62,6 +62,8 @@ app.post('/reg_numbers/town', RegRoutes.filterRegNumbers);
 
 app.get('/', RegRoutes.showRegNumbers);
 
+app.get('/clear', RegRoutes.clearAll);
+
 // port set-up
 let PORT = process.env.PORT || 3001;
 

@@ -40,7 +40,7 @@ module.exports = function RegistrationRoutes (RegNumbers) {
                 }
             }
             if (displayRegNum.length === 0) {
-                req.flash('error', 'No resgistrations where entred');
+                req.flash('error', 'No resgistrations Entered for Town Selected');
             }
     
             res.render('home', { displayRegNum, regID });
@@ -59,10 +59,23 @@ module.exports = function RegistrationRoutes (RegNumbers) {
         }
     }
 
+    async function clearAll (req, res, next) {
+        try {
+            let allDeleted = await RegNumbers.clearRegNUmbers();
+            if (allDeleted.length === 0) {
+                req.flash('clear', 'All Registrations Deleted');
+            }
+            res.redirect('/');
+        } catch (err) {
+            next(err.stack);
+        }
+    }
+
     return {
         regNumbersStored,
         filterRegNumbers,
-        showRegNumbers
+        showRegNumbers,
+        clearAll
 
     };
 };

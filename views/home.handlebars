@@ -25,13 +25,16 @@
     <br>
     
 <div class="error">
-          {{messages.error}}  
+           <h6>{{messages.error}}</h6>
         </div>
+
+
+
 
     <!-- filter
 ___________________________________________________________-->
-<div class="row">
-  <div class="twelve columns">
+<div class="row ">
+  <div class="twelve columns ">
       <div class="three columns">
           <form  method="post" action="/reg_numbers/town"  class="dropdown-menu" >
           Select town :
@@ -52,8 +55,6 @@ ___________________________________________________________-->
           
           </form>
  
-  <div class="alert"></div>
-
         </div>
 
   </div>
@@ -64,12 +65,13 @@ ___________________________________________________________-->
   
 
       
-      <button type="button" name="button" class="btnReset">Reset</button>
+      <button type="button" name="button" class="btnReset"><a href="/clear">Reset</a></button>
 
     <!--add new created element
  ____________________________________________________-->
     <div class="row">
-      <label for="">Registration Numbers</label>
+      <div class="twelve columns">
+                <label for="">Registration Numbers</label>
         <div class="templateContent">
       {{#each displayRegNum}}
       <ul>
@@ -77,6 +79,11 @@ ___________________________________________________________-->
       </ul>
       {{/each}}
     </div>
+     <div class="clear ">
+           <h5 class="firstSection">{{messages.clear}}</h5>
+        </div>
+      </div>
+
     <!--_______________________________________________-->
   </div>
 
