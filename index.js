@@ -4,6 +4,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const RegnumbersFactory = require('./reg-numbers');
+const RegistrationRoutes = require('./registration-routes');
 const session = require('express-session');
 const flash = require('express-flash');
 const pg = require('pg');
@@ -26,6 +27,7 @@ const pool = new Pool({
 
 // connect database to the factory function
 const RegNumbers = RegnumbersFactory(pool);
+const RegRoutes = RegistrationRoutes(RegNumbers);
 
 let app = express();
 
@@ -54,64 +56,11 @@ app.use(bodyParser.json());
 
 // route
 
-app.post('/reg_numbers', async function (req, res, next) {
-    try {
-        let regID = await RegNumbers.getTownCode();
-        let regNumber = req.body.regNum;
-        let regex = /^[a-zA-Z]{2,3}(\s)[0-9]{3}(\s)[0-9]{3}$/;
-        if (regNumber.match(regex)) {
-            let storeRegNum = await RegNumbers.storeRegNum(regNumber);
-            let displayRegNum = await RegNumbers.returnAllReg();
-            if (storeRegNum === 'matched') {
-                req.flash('error', 'Registration already exits');
-            } else if (storeRegNum === 'not valid') {
-                req.flash('error', 'Registation Entered Not Part Of Towns Allowed ');
-            }
-            res.render('home', { displayRegNum, regID });
-        } else {
-            let displayRegNum = await RegNumbers.returnAllReg();
-            req.flash('error', 'Entered Registatration Has Invalid Pattern!!');
-            res.render('home', { displayRegNum, regID });
-        }
-    } catch (err) {
-        next(err.stack);
-    }
-});
+app.post('/reg_numbers', RegRoutes.regNumbersStored);
 
-app.post('/reg_numbers/town', async function (req, res, next) {
-    try {
-        let townReg = req.body.town;
-        let regID = await RegNumbers.getTownCode();
-        let displayRegNum = await RegNumbers.filterReg(townReg);
-        // loop through the regID list
-        // check if the current entry match townReg
-        // if it does add a selected property selected = 'selected'
-        for (let index = 0; index < regID.length; index++) {
-            const currentTown = regID[index];
-            if (currentTown.towncode === townReg) {
-                currentTown.selected = 'selected';
-                break;
-            }
-        }
-        if (displayRegNum.length === 0) {
-            req.flash('error', 'No resgistrations where entred');
-        }
+app.post('/reg_numbers/town', RegRoutes.filterRegNumbers);
 
-        res.render('home', { displayRegNum, regID });
-    } catch (err) {
-        next(err.stack);
-    }
-});
-
-app.get('/', async function (req, res, next) {
-    try {
-        let regID = await RegNumbers.getTownCode();
-        let displayRegNum = await RegNumbers.returnAllReg();
-        res.render('home', { displayRegNum, regID });
-    } catch (err) {
-        next(err.stack);
-    }
-});
+app.get('/', RegRoutes.showRegNumbers);
 
 // port set-up
 let PORT = process.env.PORT || 3001;
