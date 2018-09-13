@@ -404,7 +404,7 @@ there.
 
 /* Larger than mobile */
 @media (max-width: 400px) {
-  img{
+ h4, img{
     display: none;
   }
 
